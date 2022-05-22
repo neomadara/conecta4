@@ -1,6 +1,8 @@
 package com.zero.conectacuatro.ui.view
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 
@@ -12,14 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-data class Circle(
-    val active: Boolean = false
-)
-
 @Composable
 fun Board() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().background(color = Color.Gray).padding(8.dp),
         horizontalArrangement = Arrangement.SpaceAround,
     ) {
         repeat(7) {
@@ -34,7 +32,7 @@ fun Board() {
     }
 }
 
-@Preview
+@Preview("Board")
 @Composable
 fun DefaultPreview() {
     Board()
@@ -43,11 +41,9 @@ fun DefaultPreview() {
 @Preview("Circle")
 @Composable
 fun Circle() {
-    OutlinedButton(onClick = { /*TODO*/ },
-        modifier= Modifier.size(50.dp),  //avoid the oval shape
-        shape = CircleShape,
-        border= BorderStroke(1.dp, Color.Blue),
-        contentPadding = PaddingValues(0.dp),  //avoid the little icon
-        colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.Blue)
-    ) {}
+    Canvas(modifier = Modifier.size(50.dp), onDraw = {
+        drawCircle(
+            color = Color.White,
+        )
+    })
 }
