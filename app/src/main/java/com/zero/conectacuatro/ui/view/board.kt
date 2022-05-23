@@ -1,23 +1,29 @@
 package com.zero.conectacuatro.ui.view
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+data class Dot(
+    val _id: String = "",
+    val isActive: Boolean = false
+)
+
 @Composable
 fun Board() {
+    val dot = Dot(isActive = false)
     Row(
-        modifier = Modifier.fillMaxWidth().background(color = Color.Gray).padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.Gray)
+            .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceAround,
     ) {
         repeat(7) {
@@ -25,7 +31,7 @@ fun Board() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 repeat(6) {
-                    Circle()
+                    Circle(dot)
                 }
             }
         }
@@ -38,12 +44,12 @@ fun DefaultPreview() {
     Board()
 }
 
-@Preview("Circle")
 @Composable
-fun Circle() {
+fun Circle(Dot: Dot) {
+    val activeState = remember { mutableStateOf(Dot.isActive) }
     Canvas(modifier = Modifier.size(50.dp), onDraw = {
         drawCircle(
-            color = Color.White,
+            color = if (activeState.value) Color.Blue else Color.White,
         )
     })
 }
