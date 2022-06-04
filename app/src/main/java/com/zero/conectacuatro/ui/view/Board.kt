@@ -10,15 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.zero.conectacuatro.domain.model.Dot
 
-data class Dot(
-    val _id: String = "",
-    val isActive: Boolean = false
-)
 
 @Composable
 fun Board() {
-    val dot = Dot(isActive = false)
+    val dot = Dot(isActive = false, column = 0, row = 0, playerId = 1)
     Row(
         modifier = Modifier
             .fillMaxWidth()
