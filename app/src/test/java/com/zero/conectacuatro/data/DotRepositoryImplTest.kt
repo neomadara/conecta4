@@ -21,17 +21,31 @@ class DotRepositoryImplTest {
 
     @Test
     fun `Should return an init Dot list`() {
-        // arrange
-        val dotsToInsert = mutableListOf<Dot>()
-        repeat(7) { col ->
-            repeat(6) { row ->
-                dotsToInsert.add(Dot(false, col, row, 0))
-            }
-        }
-        // act
+        val dotsToInsert = defaultDotList()
+
         val initDotList = repository.getDots()
 
-        // assert
         assertThat(initDotList).isEqualTo(dotsToInsert)
     }
+
+    @Test
+    fun `Should modify the dot list`() {
+        val dotList = defaultDotList()
+        val dot = Dot(true, 0, 5,1)
+        dotList[5] = dot
+
+        repository.setDot(dot)
+
+        assertThat(dotList).isEqualTo(repository.getDots())
+    }
+}
+
+fun defaultDotList(): MutableList<Dot> {
+    val dotsToInsert = mutableListOf<Dot>()
+    repeat(7) { col ->
+        repeat(6) { row ->
+            dotsToInsert.add(Dot(false, col, row, 1))
+        }
+    }
+    return dotsToInsert
 }

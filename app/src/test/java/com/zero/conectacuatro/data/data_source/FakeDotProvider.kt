@@ -11,7 +11,7 @@ class FakeDotProvider: InterfaceProvider {
     init {
         repeat(7) { col ->
             repeat(6) { row ->
-                dots.add(Dot(false, col, row, 0))
+                dots.add(Dot(false, col, row, 1))
             }
         }
     }

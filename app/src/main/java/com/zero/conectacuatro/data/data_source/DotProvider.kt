@@ -7,11 +7,19 @@ class DotProvider: InterfaceProvider {
         var dots:MutableList<Dot> = mutableListOf()
     }
 
+    init {
+        repeat(7) { col ->
+            repeat(6) { row ->
+                dots.add(Dot(false, col, row, 1))
+            }
+        }
+    }
+
     override fun getDots(): MutableList<Dot> {
-        TODO("Not yet implemented")
+        return dots
     }
 
     override fun setDots(dotList: MutableList<Dot>) {
-        TODO("Not yet implemented")
+        dots = dotList
     }
 }

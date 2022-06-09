@@ -6,6 +6,4 @@ interface DotRepository {
     fun getDots(): List<Dot>
 
     fun setDot(dot: Dot)
-
-    fun setDots(dots: MutableList<Dot>)
 }
