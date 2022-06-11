@@ -6,4 +6,6 @@ interface InterfaceProvider {
     fun getDots(): MutableList<Dot>
 
     fun setDots(dotList: MutableList<Dot>)
+
+    fun resetDots()
 }

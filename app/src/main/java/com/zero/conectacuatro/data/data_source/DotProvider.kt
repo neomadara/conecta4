@@ -8,11 +8,7 @@ class DotProvider: InterfaceProvider {
     }
 
     init {
-        repeat(7) { col ->
-            repeat(6) { row ->
-                dots.add(Dot(false, col, row, 1))
-            }
-        }
+        fillDots()
     }
 
     override fun getDots(): MutableList<Dot> {
@@ -21,5 +17,18 @@ class DotProvider: InterfaceProvider {
 
     override fun setDots(dotList: MutableList<Dot>) {
         dots = dotList
+    }
+
+    override fun resetDots() {
+        dots.clear()
+        fillDots()
+    }
+
+    fun fillDots() {
+        repeat(7) { col ->
+            repeat(6) { row ->
+                dots.add(Dot(false, col, row, 1))
+            }
+        }
     }
 }
