@@ -14,9 +14,15 @@ class DotRepositoryImpl(
     override fun setDot(dot: Dot) {
         val dotList = sourceData.getDots()
         val dotIndex = dotList.indexOfFirst { it.row == dot.row && it.column == dot.column }
-        val dotState: Dot = dotList.single { d -> d.column == dot.column && d.row == dot.row }
+        val newDot: Dot = dotList.single { d -> d.column == dot.column && d.row == dot.row }
         
-        dotState.isActive = !dotState.isActive
-        dotList[dotIndex] = dotState
+        newDot.isActive = !newDot.isActive
+        newDot.playerId = dot.playerId
+        dotList[dotIndex] = newDot
+        sourceData.setDots(dotList)
+    }
+
+    override fun resetDots() {
+        sourceData.resetDots()
     }
 }

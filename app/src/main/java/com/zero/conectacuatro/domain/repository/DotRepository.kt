@@ -6,4 +6,6 @@ interface DotRepository {
     fun getDots(): List<Dot>
 
     fun setDot(dot: Dot)
+
+    fun resetDots()
 }

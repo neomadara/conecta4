@@ -4,5 +4,5 @@ data class Dot(
     var isActive: Boolean = false,
     val column: Int,
     val row: Int,
-    val playerId: Int
+    var playerId: Int
 )

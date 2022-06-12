@@ -21,28 +21,29 @@ class DotRepositoryImplTest {
     }
 
     @After
-    fun after() {
-        fakeProvider.resetDots()
+    fun afterSetup() {
+        repository.resetDots()
     }
 
     @Test
     fun `Should return an init Dot list`() {
-        val dotsToInsert = defaultDotList()
+        val defaultList = defaultDotList()
 
         val initDotList = repository.getDots()
 
-        assertThat(initDotList).isEqualTo(dotsToInsert)
+        assertThat(initDotList).isEqualTo(defaultList)
     }
 
     @Test
     fun `Should modify the dot list`() {
-        val dotList = defaultDotList()
-        val dot = Dot(true, 0, 5,0)
-        dotList[5] = dot
+        val defaultDotList = defaultDotList()
+        val dot = Dot(true, 0, 5,1)
+        defaultDotList[5] = dot
 
         repository.setDot(dot)
+        val newDotList = repository.getDots()
 
-        assertThat(dotList).isEqualTo(repository.getDots())
+        assertThat(defaultDotList).isEqualTo(newDotList)
     }
 }
 
