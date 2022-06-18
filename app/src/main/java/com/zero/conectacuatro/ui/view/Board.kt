@@ -2,6 +2,7 @@ package com.zero.conectacuatro.ui.view
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -12,10 +13,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zero.conectacuatro.domain.model.Dot
 
+fun fillDots(): MutableList<Dot> {
+    val dots = mutableListOf<Dot>()
+
+    repeat(7) { col ->
+        repeat(6) { row ->
+            dots.add(Dot(false, col, row, 0))
+        }
+    }
+
+    return dots
+}
+
+
+fun handleTap(dot: Dot) {
+    println("$dot.col, $dot.row")
+}
 
 @Composable
 fun Board() {
-    val dot = Dot(isActive = false, column = 0, row = 0, playerId = 1)
+    val dots: List<Dot> = fillDots()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -23,12 +41,13 @@ fun Board() {
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceAround,
     ) {
-        repeat(7) {
+        repeat(7) { colIndex ->
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                repeat(6) {
-                    Circle(dot)
+                repeat(6) { rowIndex ->
+                    dots.find { it.row == rowIndex && it.column == colIndex }
+                        ?.let { Circle(dot = it) }
                 }
             }
         }
@@ -42,9 +61,9 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun Circle(Dot: Dot) {
-    val activeState = remember { mutableStateOf(Dot.isActive) }
-    Canvas(modifier = Modifier.size(50.dp), onDraw = {
+fun Circle(dot: Dot) {
+    val activeState = remember { mutableStateOf(dot.isActive) }
+    Canvas(modifier = Modifier.size(50.dp).clickable { println(dot) }, onDraw = {
         drawCircle(
             color = if (activeState.value) Color.Blue else Color.White,
         )
