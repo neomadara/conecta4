@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zero.conectacuatro.domain.model.Dot
@@ -63,9 +64,15 @@ fun DefaultPreview() {
 @Composable
 fun Circle(dot: Dot) {
     val activeState = remember { mutableStateOf(dot.isActive) }
-    Canvas(modifier = Modifier.size(50.dp).clickable { println(dot) }, onDraw = {
-        drawCircle(
-            color = if (activeState.value) Color.Blue else Color.White,
-        )
-    })
+    Canvas(
+        modifier = Modifier
+            .size(50.dp)
+            .clickable { println(dot) }
+            .testTag("MyDotTag")
+        ,
+        onDraw = {
+            drawCircle(
+                color = if (activeState.value) Color.Blue else Color.White,
+            )
+        })
 }
