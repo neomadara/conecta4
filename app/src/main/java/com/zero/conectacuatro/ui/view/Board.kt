@@ -13,28 +13,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zero.conectacuatro.domain.model.Dot
-
-fun fillDots(): MutableList<Dot> {
-    val dots = mutableListOf<Dot>()
-
-    repeat(7) { col ->
-        repeat(6) { row ->
-            dots.add(Dot(false, col, row, 0))
-        }
-    }
-
-    return dots
-}
-
-
-fun handleTap(dot: Dot) {
-    println("$dot.col, $dot.row")
-}
+import com.zero.conectacuatro.utils.defaultDots
 
 @Composable
-fun Board() {
-    val dots: List<Dot> = fillDots()
-
+fun Board(dots: List<Dot>, onTap: (Dot) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +30,7 @@ fun Board() {
             ) {
                 repeat(6) { rowIndex ->
                     dots.find { it.row == rowIndex && it.column == colIndex }
-                        ?.let { Circle(dot = it) }
+                        ?.let { Circle(dot = it, onTap = onTap) }
                 }
             }
         }
@@ -58,16 +40,17 @@ fun Board() {
 @Preview("Board")
 @Composable
 fun DefaultPreview() {
-    Board()
+    val dots = defaultDots()
+    Board(dots = dots, onTap = {})
 }
 
 @Composable
-fun Circle(dot: Dot) {
+fun Circle(dot: Dot, onTap: (Dot) -> Unit) {
     val activeState = remember { mutableStateOf(dot.isActive) }
     Canvas(
         modifier = Modifier
             .size(50.dp)
-            .clickable { println(dot) }
+            .clickable { onTap(dot) }
             .testTag("MyDotTag")
         ,
         onDraw = {
