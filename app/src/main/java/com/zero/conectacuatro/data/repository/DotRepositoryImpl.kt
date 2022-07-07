@@ -13,16 +13,29 @@ class DotRepositoryImpl(
 
     override fun setDot(dot: Dot) {
         val dotList = sourceData.getDots()
-        val dotIndex = dotList.indexOfFirst { it.row == dot.row && it.column == dot.column }
-        val newDot: Dot = dotList.single { d -> d.column == dot.column && d.row == dot.row }
-        
-        newDot.isActive = !newDot.isActive
-        newDot.playerId = dot.playerId
-        dotList[dotIndex] = newDot
+        val columnDots = determinateColumn(dotList, dot)
+
+        for (i in columnDots.indices.reversed()) {
+            if (!columnDots[i].isActive) {
+                columnDots[i].isActive = true
+                columnDots[i].playerId = dot.playerId
+                break
+            }
+        }
+
+        for (idx in columnDots.indices) {
+            dotList.find { columnDots[idx].column == it.column && columnDots[idx].row == it.row }?.isActive = columnDots[idx].isActive
+            dotList.find { columnDots[idx].column == it.column && columnDots[idx].row == it.row }?.playerId = columnDots[idx].playerId
+        }
+
         sourceData.setDots(dotList)
     }
 
     override fun resetDots() {
         sourceData.resetDots()
+    }
+
+    private fun determinateColumn(dots: MutableList<Dot>,dot: Dot): MutableList<Dot> {
+        return dots.filter { it.column == dot.column }.toMutableList()
     }
 }

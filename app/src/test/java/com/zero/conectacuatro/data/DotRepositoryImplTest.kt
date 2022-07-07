@@ -15,13 +15,13 @@ class DotRepositoryImplTest {
     private lateinit var fakeProvider: FakeDotProvider
 
     @Before
-    fun setUp() {
+    fun before() {
         fakeProvider = FakeDotProvider()
         repository = DotRepositoryImpl(fakeProvider)
     }
 
     @After
-    fun afterSetup() {
+    fun after() {
         repository.resetDots()
     }
 
@@ -35,15 +35,36 @@ class DotRepositoryImplTest {
     }
 
     @Test
-    fun `Should modify the dot list`() {
+    fun `Should search if the dot selected is the first active in the column, if this is true the last dot is active` () {
         val defaultDotList = defaultDotList()
-        val dot = Dot(true, 0, 5,1)
-        defaultDotList[5] = dot
+        val dot = Dot(true, 0, 0,1)
+
+        defaultDotList.find { it.row == 5 && it.column == 0 }?.isActive = true
+        defaultDotList.find { it.row == 5 && it.column == 0 }?.playerId = 1
 
         repository.setDot(dot)
         val newDotList = repository.getDots()
-
         assertThat(defaultDotList).isEqualTo(newDotList)
+    }
+
+    @Test
+    fun `Should search if the dot selected is the first active in the column, if this false activate the next dot who is active` () {
+        val dotsExpected = defaultDotList()
+
+        val dotPlayerOne = Dot(true, 0, 0,1)
+        val dotPlayerTwo = Dot(true, 0, 0,2)
+
+        dotsExpected.find { it.row == 5 && it.column == 0 }?.isActive = true
+        dotsExpected.find { it.row == 5 && it.column == 0 }?.playerId = 1
+
+        dotsExpected.find { it.row == 4 && it.column == 0 }?.isActive = true
+        dotsExpected.find { it.row == 4 && it.column == 0 }?.playerId = 2
+
+        repository.setDot(dotPlayerOne)
+        repository.setDot(dotPlayerTwo)
+
+        val newDotList = repository.getDots()
+        assertThat(dotsExpected).isEqualTo(newDotList)
     }
 }
 

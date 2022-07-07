@@ -6,19 +6,28 @@ import com.zero.conectacuatro.domain.model.Dot
 import androidx.lifecycle.MutableLiveData
 import com.zero.conectacuatro.data.data_source.DotProvider
 import com.zero.conectacuatro.data.repository.DotRepositoryImpl
+import com.zero.conectacuatro.domain.repository.DotRepository
 
-class BoardViewModel () : ViewModel() {
-    private val dotProvider = DotProvider()
-    private val dotRepository = DotRepositoryImpl(dotProvider)
-
+class BoardViewModel (
+    private val repository: DotRepository = DotRepositoryImpl(DotProvider())
+) : ViewModel() {
     private val _dots = MutableLiveData<List<Dot>>()
     val dots: LiveData<List<Dot>> get() = _dots
 
     fun selectDot(dot: Dot) {
-        println(dot)
+        repository.setDot(dot)
+        fillDots()
     }
 
     fun onCreated() {
-        _dots.postValue(dotRepository.getDots())
+        fillDots()
+    }
+
+    private fun fillDots() {
+        _dots.postValue(repository.getDots())
+    }
+
+    fun newGame() {
+        repository.resetDots()
     }
 }
