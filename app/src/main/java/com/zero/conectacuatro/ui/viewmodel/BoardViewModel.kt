@@ -14,7 +14,15 @@ class BoardViewModel (
     private val _dots = MutableLiveData<List<Dot>>()
     val dots: LiveData<List<Dot>> get() = _dots
 
+    private val _actualPlayer = MutableLiveData<Number>(0)
+    val actualPlayer get() = _actualPlayer
+
     fun selectDot(dot: Dot) {
+        when (_actualPlayer.value) {
+            0, 2 -> dot.playerId = 1
+            1 -> dot.playerId = 2
+        }
+        actualPlayer.value = dot.playerId
         repository.setDot(dot)
         fillDots()
     }

@@ -6,9 +6,7 @@ import com.zero.conectacuatro.utils.defaultDots
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -90,5 +88,43 @@ class BoardViewModelTest {
         every { dotRepository.getDots() } returns dotsExpected
 
         assert(boardViewModel.dots.value == dotsExpected)
+    }
+
+    @Test
+    fun `when a player tap a dot, then the value of player must be 1 and if the second player tap a dot then the value mas be 2` () {
+        // given
+        val playerOne = 1
+        val playerTwo = 2
+        val dots = defaultDots()
+        val dotSelectedPlayerOne = dots[0]
+        val dotSelectedPlayerTwo = dots[2]
+        val dotsExpected = defaultDots()
+        every { dotRepository.getDots() } returns dots
+        every { dotRepository.resetDots() } returns Unit
+
+        // when
+        boardViewModel.onCreated()
+        every { dotRepository.setDot(dotSelectedPlayerOne) } returns Unit
+        boardViewModel.selectDot(dotSelectedPlayerOne)
+
+        // then
+        dots.find { it.row == 5 && it.column == 0 }?.isActive = true
+        dots.find { it.row == 5 && it.column == 0 }?.playerId = playerOne
+
+        every { dotRepository.getDots() } returns dotsExpected
+
+        assert(boardViewModel.actualPlayer.value == playerOne)
+
+        // when
+        every { dotRepository.setDot(dotSelectedPlayerTwo) } returns Unit
+        boardViewModel.selectDot(dotSelectedPlayerTwo)
+
+        // then
+        dots.find { it.row == 4 && it.column == 0 }?.isActive = true
+        dots.find { it.row == 4 && it.column == 0 }?.playerId = playerTwo
+
+        every { dotRepository.getDots() } returns dotsExpected
+
+        assert(boardViewModel.actualPlayer.value == playerTwo)
     }
 }
