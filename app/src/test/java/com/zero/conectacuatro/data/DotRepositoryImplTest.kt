@@ -48,6 +48,20 @@ class DotRepositoryImplTest {
     }
 
     @Test
+    fun `Should active the last dot of the column even if the user send the first dot` () {
+        val defaultDotList = defaultDotList()
+        val dot = Dot(true, 0, 4,1)
+
+        defaultDotList.find { it.row == 5 && it.column == 0 }?.isActive = true
+        defaultDotList.find { it.row == 5 && it.column == 0 }?.playerId = 1
+
+        repository.setDot(dot)
+        val newDotList = repository.getDots()
+        println(newDotList)
+        assertThat(defaultDotList).isEqualTo(newDotList)
+    }
+
+    @Test
     fun `Should search if the dot selected is the first active in the column, if this false activate the next dot who is active` () {
         val dotsExpected = defaultDotList()
 
