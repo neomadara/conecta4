@@ -12,9 +12,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.zero.conectacuatro.domain.model.Dot
 import com.zero.conectacuatro.ui.theme.ConectaCuatroTheme
 import com.zero.conectacuatro.ui.view.Board
 import com.zero.conectacuatro.ui.viewmodel.BoardViewModel
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Game(viewModel = viewModel)
+                    Game(viewModel)
                 }
             }
         }
@@ -54,13 +55,18 @@ fun BoardPreview() {
 
 @Composable
 fun Game(viewModel: BoardViewModel) {
-    val dots by viewModel.dots.observeAsState(initial = emptyList())
+    val dots: List<Dot> by viewModel.dots
+    val player: Number by viewModel.player
 
     Column(
         verticalArrangement = Arrangement.Center
     ) {
-        Board(dots = dots, onTap = {viewModel.selectDot(it)})
+        Board(
+            dots = dots,
+            onTap = { viewModel.selectDot(it) }
+        )
         Text(text = "Jugador 1 = 0")
         Text(text = "Jugador 2 = 0")
+        Text(text = "ultimo jugador en seleccionar ${player}")
     }
 }
