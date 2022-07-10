@@ -9,17 +9,9 @@ import com.zero.conectacuatro.data.data_source.DotProvider
 import com.zero.conectacuatro.data.repository.DotRepositoryImpl
 import com.zero.conectacuatro.domain.repository.DotRepository
 
-data class BoardUiState(
-    val dots: List<Dot> = emptyList(),
-    val player: Number = 0
-)
-
 class BoardViewModel(
     private val repository: DotRepository = DotRepositoryImpl(DotProvider())
 ) : ViewModel() {
-
-    private val _state = mutableStateOf(BoardUiState())
-    val state: State<BoardUiState> = _state
 
     private val _dots: MutableState<List<Dot>> = mutableStateOf(emptyList())
     val dots: State<List<Dot>> get() = _dots
