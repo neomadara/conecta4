@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -46,7 +44,7 @@ fun DefaultPreview() {
 
 @Composable
 fun Circle(dot: Dot, onTap: (Dot) -> Unit) {
-    val activeState = remember { mutableStateOf(dot.isActive) }
+    println(dot)
     Canvas(
         modifier = Modifier
             .size(50.dp)
@@ -55,7 +53,24 @@ fun Circle(dot: Dot, onTap: (Dot) -> Unit) {
         ,
         onDraw = {
             drawCircle(
-                color = if (activeState.value) Color.Blue else Color.White,
+                color = handleDotColor(dot),
             )
         })
+}
+
+private fun handleDotColor(dot: Dot): Color {
+    if (!dot.isActive) return Color.White
+    val color = when (dot.playerId) {
+        0 -> Color.White
+        1 -> Color.Blue
+        2 -> Color.Green
+        else -> Color.White
+    }
+    return color
+}
+
+@Preview("Dot")
+@Composable
+fun CirclePreview() {
+    Circle(dot = Dot(true, 0, 0, 1), onTap = {})
 }
