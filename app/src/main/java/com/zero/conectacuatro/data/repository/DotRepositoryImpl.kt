@@ -2,6 +2,7 @@ package com.zero.conectacuatro.data.repository
 
 import com.zero.conectacuatro.data.data_source.InterfaceProvider
 import com.zero.conectacuatro.domain.model.Dot
+import com.zero.conectacuatro.domain.model.Player
 import com.zero.conectacuatro.domain.repository.DotRepository
 
 class DotRepositoryImpl(
@@ -33,6 +34,39 @@ class DotRepositoryImpl(
 
     override fun resetDots() {
         sourceData.resetDots()
+    }
+
+    override fun searchWinner(player: Number): Player {
+        val dots = sourceData.getDots().toList()
+        var tempCount = 0
+        var dotsInLine = 0
+
+        for (col in 0..6) {
+            for (row in 5 downTo 0) {
+                val dot = dots.find { it.column == col && it.row == row }
+                if (dot?.playerId == player && dot.isActive) {
+                    // count in line dot in Column
+                    for (x in row downTo 0) {
+                        val dotColumn = dots.find { it.column == col  && it.row == x}
+                        if (dotColumn?.playerId == player && dotColumn.isActive) {
+                          tempCount += 1
+                        } else {
+                            break
+                        }
+                    }
+
+                    if (tempCount > dotsInLine) {
+                        dotsInLine = tempCount
+                        tempCount = 0
+                    }
+                }
+
+            }
+        }
+        // TODO row
+        // TODO diagonal
+
+        return Player(player, dotsInLine)
     }
 
     private fun determinateColumn(dots: MutableList<Dot>,dot: Dot): MutableList<Dot> {

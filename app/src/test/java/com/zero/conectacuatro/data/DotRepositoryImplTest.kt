@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.zero.conectacuatro.data.data_source.FakeDotProvider
 import com.zero.conectacuatro.data.repository.DotRepositoryImpl
 import com.zero.conectacuatro.domain.model.Dot
+import com.zero.conectacuatro.domain.model.Player
 import com.zero.conectacuatro.domain.repository.DotRepository
 import org.junit.After
 import org.junit.Before
@@ -79,6 +80,46 @@ class DotRepositoryImplTest {
 
         val newDotList = repository.getDots()
         assertThat(dotsExpected).isEqualTo(newDotList)
+    }
+
+    @Test
+    fun `Should search the quantity of dots in line of a player in a column and return the result` () {
+        val dotOne = Dot(true, 0, 0,1)
+        val dotTwo = Dot(true, 0, 0,1)
+        val dotThree = Dot(true, 0, 0,1)
+
+        repository.setDot(dotOne)
+        repository.setDot(dotTwo)
+        repository.setDot(dotThree)
+
+        val resultExpected = Player(1, 3)
+        val resultRepository = repository.searchWinner(1)
+
+        assertThat(resultRepository).isEqualTo(resultExpected)
+    }
+
+    @Test
+    fun `Should search the quantity of dots in line of a player in a row and return the result` () {
+        val dotOne = Dot(true, 0, 0,1)
+        val dotTwo = Dot(true, 1, 0,1)
+        val dotThree = Dot(true, 2, 0,1)
+
+        repository.setDot(dotOne)
+        repository.setDot(dotTwo)
+        repository.setDot(dotThree)
+
+        println(repository.getDots())
+
+        val resultExpected = Player(1, 3)
+        val resultRepository = repository.searchWinner(1)
+        println(resultRepository)
+
+        assertThat(resultExpected).isEqualTo(resultRepository)
+    }
+
+    @Test
+    fun `Should search the quantity of dots in line of a player in a diagonal and return the result` () {
+        TODO()
     }
 }
 
