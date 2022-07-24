@@ -57,13 +57,27 @@ class DotRepositoryImpl(
 
                     if (tempCount > dotsInLine) {
                         dotsInLine = tempCount
-                        tempCount = 0
                     }
+                    tempCount = 0
+
+                    // count in line dot in Row
+                    for (y in col..6) {
+                        val dotRow = dots.find { it.column == y && it.row == row }
+                        if (dotRow?.playerId == player && dotRow.isActive) {
+                            tempCount += 1
+                        } else {
+                            break
+                        }
+                    }
+
+                    if (tempCount > dotsInLine) {
+                        dotsInLine = tempCount
+                    }
+                    tempCount = 0
                 }
 
             }
         }
-        // TODO row
         // TODO diagonal
 
         return Player(player, dotsInLine)

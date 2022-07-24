@@ -108,13 +108,11 @@ class DotRepositoryImplTest {
         repository.setDot(dotTwo)
         repository.setDot(dotThree)
 
-        println(repository.getDots())
 
         val resultExpected = Player(1, 3)
         val resultRepository = repository.searchWinner(1)
-        println(resultRepository)
 
-        assertThat(resultExpected).isEqualTo(resultRepository)
+        assertThat(resultRepository).isEqualTo(resultExpected)
     }
 
     @Test
