@@ -108,4 +108,35 @@ class BoardViewModelTest {
 
         assert(boardViewModel.player.value == playerTwo)
     }
+
+    @Test
+    fun `when a player tap a dot and this dot is of another user then can not be modify the owner` () {
+        // given
+        val playerOne = 1
+        val dots = defaultDots()
+
+        val dotsExpected = defaultDots()
+        dotsExpected.find { it.row == 5 && it.column == 0 }?.isActive = true
+        dotsExpected.find { it.row == 5 && it.column == 0 }?.playerId = playerOne
+
+        val dotSelectedPlayerOne = Dot(false,0,0, 1)
+        val dotSelectedPlayerTwo = Dot(true,0,0, 1)
+        every { dotRepository.getDots() } returns dots
+        every { dotRepository.resetDots() } returns Unit
+
+        // when
+        boardViewModel.onCreated()
+        every { dotRepository.setDot(dotSelectedPlayerOne) } returns Unit
+        boardViewModel.selectDot(dotSelectedPlayerOne)
+
+        boardViewModel.selectDot(dotSelectedPlayerTwo)
+
+        // then
+        dots.find { it.row == 5 && it.column == 0 }?.isActive = true
+        dots.find { it.row == 5 && it.column == 0 }?.playerId = playerOne
+
+        every { dotRepository.getDots() } returns dots
+
+        assert(boardViewModel.dots.value == dotsExpected)
+    }
 }

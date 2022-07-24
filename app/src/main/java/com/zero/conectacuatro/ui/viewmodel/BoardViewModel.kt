@@ -20,6 +20,7 @@ class BoardViewModel(
     val player: State<Number> get() = _player
 
     fun selectDot(dot: Dot) {
+        if (dot.isActive) return
         when (_player.value) {
             0, 2 -> dot.playerId = 1
             1 -> dot.playerId = 2
