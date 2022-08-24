@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.zero.conectacuatro.domain.model.Dot
 import com.zero.conectacuatro.data.data_source.DotProvider
 import com.zero.conectacuatro.data.repository.DotRepositoryImpl
+import com.zero.conectacuatro.domain.model.GameStatus
 import com.zero.conectacuatro.domain.repository.DotRepository
 
 class BoardViewModel(
@@ -18,6 +19,9 @@ class BoardViewModel(
 
     private val _player: MutableState<Number> = mutableStateOf(0)
     val player: State<Number> get() = _player
+
+    private val _gameStatus: MutableState<GameStatus> = mutableStateOf(GameStatus(0,0))
+    val gameStatus: State<GameStatus> get() = _gameStatus
 
     fun selectDot(dot: Dot) {
         if (dot.isActive) return
@@ -41,5 +45,15 @@ class BoardViewModel(
 
     fun newGame() {
         repository.resetDots()
+    }
+
+    fun searchWinner(playerNumber: Int) {
+      val result = repository.searchWinner(playerNumber)
+      if (result.dotsInLine == 4) {
+        when(playerNumber) {
+            1 -> _gameStatus.value.winsPlayerOne = _gameStatus.value.winsPlayerOne.toInt() + 1
+            2 -> _gameStatus.value.winsPlayerTwo = _gameStatus.value.winsPlayerTwo.toInt() + 1
+        }
+      }
     }
 }

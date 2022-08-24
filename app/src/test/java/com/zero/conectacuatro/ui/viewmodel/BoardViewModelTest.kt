@@ -2,6 +2,8 @@ package com.zero.conectacuatro.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.zero.conectacuatro.domain.model.Dot
+import com.zero.conectacuatro.domain.model.GameStatus
+import com.zero.conectacuatro.domain.model.Player
 import com.zero.conectacuatro.domain.repository.DotRepository
 import com.zero.conectacuatro.utils.defaultDots
 import io.mockk.MockKAnnotations
@@ -138,5 +140,24 @@ class BoardViewModelTest {
         every { dotRepository.getDots() } returns dots
 
         assert(boardViewModel.dots.value == dotsExpected)
+    }
+
+    @Test
+    fun `when a player has 4 dots in line must show an message saying that a player has win` () {
+        // given
+        val playerOne = 1
+        val dots = defaultDots()
+        val game = GameStatus(1, 0)
+
+        every { dotRepository.getDots() } returns dots
+        every { dotRepository.resetDots() } returns Unit
+        every { dotRepository.searchWinner(playerOne) } returns Player(1, 4)
+
+        // when
+        boardViewModel.onCreated()
+        boardViewModel.searchWinner(playerOne)
+
+        // then
+        assert(boardViewModel.gameStatus.value == game)
     }
 }
