@@ -77,8 +77,8 @@ class DotRepositoryImpl(
 
                     // count in line dot in Diagonal
                     for (dotPunter in 0..3) {
-                        val dotCol = dot.column + dotPunter // col
-                        val dotRow = dot.row - dotPunter  // row
+                        val dotCol = dot.column + dotPunter
+                        val dotRow = dot.row - dotPunter
 
                         val dotDiagonal = dots.find { it.column == dotCol && it.row == dotRow}
                         if (dotDiagonal?.playerId == player && dotDiagonal.isActive) {
@@ -92,7 +92,6 @@ class DotRepositoryImpl(
                     if (tempCount > dotsInLine) {
                         dotsInLine = tempCount
                     }
-
                     tempCount = 0
 
                 }
