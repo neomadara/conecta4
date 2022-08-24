@@ -117,7 +117,26 @@ class DotRepositoryImplTest {
 
     @Test
     fun `Should search the quantity of dots in line of a player in a diagonal and return the result` () {
-        TODO()
+        val dotOne = Dot(true, 0, 0,1)
+        val dotTwo = Dot(true, 1, 0,2)
+        val dotThree = Dot(true, 1, 0,1)
+        val dotFour = Dot(true, 2, 0,2)
+        val dotFive = Dot(true, 1, 0,1)
+        val dotSix = Dot(true, 2, 0,2)
+        val dotSeven = Dot(true, 2, 0,1)
+
+        repository.setDot(dotOne)
+        repository.setDot(dotTwo)
+        repository.setDot(dotThree)
+        repository.setDot(dotFour)
+        repository.setDot(dotFive)
+        repository.setDot(dotSix)
+        repository.setDot(dotSeven)
+
+        val resultExpected = Player(1, 3)
+        val resultRepository = repository.searchWinner(1)
+
+        assertThat(resultRepository).isEqualTo(resultExpected)
     }
 }
 

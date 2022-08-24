@@ -47,7 +47,7 @@ class DotRepositoryImpl(
                 if (dot?.playerId == player && dot.isActive) {
                     // count in line dot in Column
                     for (x in row downTo 0) {
-                        val dotColumn = dots.find { it.column == col  && it.row == x}
+                        val dotColumn = dots.find { it.column == col && it.row == x}
                         if (dotColumn?.playerId == player && dotColumn.isActive) {
                           tempCount += 1
                         } else {
@@ -74,11 +74,31 @@ class DotRepositoryImpl(
                         dotsInLine = tempCount
                     }
                     tempCount = 0
+
+                    // count in line dot in Diagonal
+                    for (dotPunter in 0..3) {
+                        val dotCol = dot.column + dotPunter // col
+                        val dotRow = dot.row - dotPunter  // row
+
+                        val dotDiagonal = dots.find { it.column == dotCol && it.row == dotRow}
+                        if (dotDiagonal?.playerId == player && dotDiagonal.isActive) {
+                            tempCount += 1
+                        } else {
+                            break
+                        }
+                    }
+
+
+                    if (tempCount > dotsInLine) {
+                        dotsInLine = tempCount
+                    }
+
+                    tempCount = 0
+
                 }
 
             }
         }
-        // TODO diagonal
 
         return Player(player, dotsInLine)
     }
