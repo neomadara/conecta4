@@ -16,8 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.zero.conectacuatro.domain.model.Dot
+import com.zero.conectacuatro.domain.model.GameStatus
 import com.zero.conectacuatro.ui.theme.ConectaCuatroTheme
 import com.zero.conectacuatro.ui.view.Board
+import com.zero.conectacuatro.ui.view.GamerMarker
 import com.zero.conectacuatro.ui.viewmodel.BoardViewModel
 
 class MainActivity : ComponentActivity() {
@@ -57,6 +59,7 @@ fun BoardPreview() {
 fun Game(viewModel: BoardViewModel) {
     val dots: List<Dot> by viewModel.dots
     val player: Number by viewModel.player
+    val gameStatus: GameStatus by viewModel.gameStatus
 
     Column(
         verticalArrangement = Arrangement.Center
@@ -65,8 +68,9 @@ fun Game(viewModel: BoardViewModel) {
             dots = dots,
             onTap = { viewModel.selectDot(it) }
         )
-        Text(text = "Jugador 1 = 0")
-        Text(text = "Jugador 2 = 0")
-        Text(text = "ultimo jugador en seleccionar ${player}")
+        GamerMarker(
+            actualPlayer = player,
+            winsPlayerOne = gameStatus.winsPlayerOne,
+            winsPlayerTwo = gameStatus.winsPlayerTwo)
     }
 }

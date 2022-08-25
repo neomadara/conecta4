@@ -34,4 +34,21 @@ class BoardTest {
             .onAllNodesWithTag("MyDotTag")
             .assertCountEquals(42)
     }
+
+    @Test
+    fun boardTest_renderAMarkerForTheGameStatus () {
+        val dots = defaultDots()
+        composeTestRule.setContent {
+            Board(dots = dots.toList(), {})
+        }
+
+        composeTestRule.onRoot().printToLog("currentLabelExists")
+        composeTestRule
+            .onAllNodesWithTag("GameStatusTagPlayerOne")
+            .assertCountEquals(1)
+
+        composeTestRule
+            .onAllNodesWithTag("GameStatusTagPlayerTwo")
+            .assertCountEquals(1)
+    }
 }
