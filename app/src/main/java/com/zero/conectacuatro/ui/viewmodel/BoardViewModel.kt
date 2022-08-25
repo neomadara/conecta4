@@ -32,6 +32,7 @@ class BoardViewModel(
         _player.value = dot.playerId
         repository.setDot(dot)
         fillDots()
+        searchWinner(_player.value.toInt())
     }
 
     fun onCreated() {
@@ -54,6 +55,7 @@ class BoardViewModel(
             1 -> _gameStatus.value.winsPlayerOne = _gameStatus.value.winsPlayerOne.toInt() + 1
             2 -> _gameStatus.value.winsPlayerTwo = _gameStatus.value.winsPlayerTwo.toInt() + 1
         }
+        newGame()
       }
     }
 }

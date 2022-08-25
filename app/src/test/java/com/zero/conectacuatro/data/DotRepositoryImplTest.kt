@@ -58,7 +58,6 @@ class DotRepositoryImplTest {
 
         repository.setDot(dot)
         val newDotList = repository.getDots()
-        println(newDotList)
         assertThat(defaultDotList).isEqualTo(newDotList)
     }
 

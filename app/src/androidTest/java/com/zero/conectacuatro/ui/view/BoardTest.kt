@@ -40,6 +40,7 @@ class BoardTest {
         val dots = defaultDots()
         composeTestRule.setContent {
             Board(dots = dots.toList(), {})
+            GamerMarker(actualPlayer = 1, winsPlayerOne = 0, winsPlayerTwo = 0)
         }
 
         composeTestRule.onRoot().printToLog("currentLabelExists")

@@ -44,7 +44,6 @@ fun DefaultPreview() {
 
 @Composable
 fun Circle(dot: Dot, onTap: (Dot) -> Unit) {
-    println(dot)
     Canvas(
         modifier = Modifier
             .size(50.dp)
