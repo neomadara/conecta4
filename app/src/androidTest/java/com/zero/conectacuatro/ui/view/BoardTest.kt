@@ -3,6 +3,7 @@ package com.zero.conectacuatro.ui.view
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.zero.conectacuatro.domain.model.Dot
+import com.zero.conectacuatro.domain.model.GameStatus
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,7 +41,7 @@ class BoardTest {
         val dots = defaultDots()
         composeTestRule.setContent {
             Board(dots = dots.toList(), {})
-            GamerMarker(actualPlayer = 1, winsPlayerOne = 0, winsPlayerTwo = 0)
+            GamerMarkerNew(actualPlayer = 1, GameStatus(1, 0), {})
         }
 
         composeTestRule.onRoot().printToLog("currentLabelExists")

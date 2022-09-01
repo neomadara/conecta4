@@ -61,8 +61,8 @@ private fun handleDotColor(dot: Dot): Color {
     if (!dot.isActive) return Color.White
     val color = when (dot.playerId) {
         0 -> Color.White
-        1 -> Color.Blue
-        2 -> Color.Green
+        1 -> Color.Red
+        2 -> Color.Yellow
         else -> Color.White
     }
     return color

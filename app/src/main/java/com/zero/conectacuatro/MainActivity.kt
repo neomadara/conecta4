@@ -19,7 +19,7 @@ import com.zero.conectacuatro.domain.model.Dot
 import com.zero.conectacuatro.domain.model.GameStatus
 import com.zero.conectacuatro.ui.theme.ConectaCuatroTheme
 import com.zero.conectacuatro.ui.view.Board
-import com.zero.conectacuatro.ui.view.GamerMarker
+import com.zero.conectacuatro.ui.view.GamerMarkerNew
 import com.zero.conectacuatro.ui.viewmodel.BoardViewModel
 
 class MainActivity : ComponentActivity() {
@@ -60,7 +60,7 @@ fun Game(viewModel: BoardViewModel) {
     val dots: List<Dot> by viewModel.dots
     val player: Number by viewModel.player
     val gameStatus: GameStatus by viewModel.gameStatus
-
+    println(dots)
     Column(
         verticalArrangement = Arrangement.Center
     ) {
@@ -68,9 +68,11 @@ fun Game(viewModel: BoardViewModel) {
             dots = dots,
             onTap = { viewModel.selectDot(it) }
         )
-        GamerMarker(
+        GamerMarkerNew(
             actualPlayer = player,
-            winsPlayerOne = gameStatus.winsPlayerOne,
-            winsPlayerTwo = gameStatus.winsPlayerTwo)
+            gameStatus = gameStatus,
+            onResetCurrentGame = { viewModel.newGame() }
+        )
+
     }
 }

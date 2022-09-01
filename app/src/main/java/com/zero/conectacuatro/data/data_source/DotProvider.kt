@@ -24,7 +24,7 @@ class DotProvider: InterfaceProvider {
         fillDots()
     }
 
-    fun fillDots() {
+    private fun fillDots() {
         repeat(7) { col ->
             repeat(6) { row ->
                 dots.add(Dot(false, col, row, 0))

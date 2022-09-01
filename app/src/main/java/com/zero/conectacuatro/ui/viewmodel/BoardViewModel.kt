@@ -17,7 +17,7 @@ class BoardViewModel(
     private val _dots: MutableState<List<Dot>> = mutableStateOf(emptyList())
     val dots: State<List<Dot>> get() = _dots
 
-    private val _player: MutableState<Number> = mutableStateOf(0)
+    private val _player: MutableState<Number> = mutableStateOf(2)
     val player: State<Number> get() = _player
 
     private val _gameStatus: MutableState<GameStatus> = mutableStateOf(GameStatus(0,0))
@@ -26,13 +26,13 @@ class BoardViewModel(
     fun selectDot(dot: Dot) {
         if (dot.isActive) return
         when (_player.value) {
-            0, 2 -> dot.playerId = 1
+            2 -> dot.playerId = 1
             1 -> dot.playerId = 2
         }
         _player.value = dot.playerId
         repository.setDot(dot)
         fillDots()
-        searchWinner(_player.value.toInt())
+        searchWinner(_player.value)
     }
 
     fun onCreated() {
@@ -46,9 +46,10 @@ class BoardViewModel(
 
     fun newGame() {
         repository.resetDots()
+        fillDots()
     }
 
-    fun searchWinner(playerNumber: Int) {
+    fun searchWinner(playerNumber: Number) {
       val result = repository.searchWinner(playerNumber)
       if (result.dotsInLine == 4) {
         when(playerNumber) {

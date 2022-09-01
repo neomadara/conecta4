@@ -64,6 +64,7 @@ class BoardViewModelTest {
         // when
         boardViewModel.onCreated()
         every { dotRepository.setDot(dotSelected) } returns Unit
+        every { dotRepository.searchWinner(1) } returns Player(1, 1)
         boardViewModel.selectDot(dotSelected)
 
         // then
@@ -88,6 +89,8 @@ class BoardViewModelTest {
         // when
         boardViewModel.onCreated()
         every { dotRepository.setDot(dotSelectedPlayerOne) } returns Unit
+        every { dotRepository.searchWinner(playerOne) } returns Player(1, 1)
+        every { dotRepository.searchWinner(playerTwo) } returns Player(2, 1)
         boardViewModel.selectDot(dotSelectedPlayerOne)
 
         // then
@@ -129,6 +132,8 @@ class BoardViewModelTest {
         // when
         boardViewModel.onCreated()
         every { dotRepository.setDot(dotSelectedPlayerOne) } returns Unit
+        every { dotRepository.searchWinner(playerOne) } returns Player(1, 1)
+
         boardViewModel.selectDot(dotSelectedPlayerOne)
 
         boardViewModel.selectDot(dotSelectedPlayerTwo)
@@ -159,5 +164,28 @@ class BoardViewModelTest {
 
         // then
         assert(boardViewModel.gameStatus.value == game)
+    }
+
+    @Test
+    fun `when a player press a button to start again the current game` () {
+        // given
+        val playerOne = 1
+        val dots = defaultDots()
+
+        dots.find { it.row == 5 && it.column == 0 }?.isActive = true
+        dots.find { it.row == 5 && it.column == 0 }?.playerId = playerOne
+
+        every { dotRepository.getDots() } returns dots
+        every { dotRepository.resetDots() } returns Unit
+
+        // when
+        boardViewModel.onCreated()
+
+        every { dotRepository.getDots() } returns defaultDots()
+        boardViewModel.newGame()
+
+        // then
+        assert(boardViewModel.dots.value == defaultDots())
+
     }
 }
