@@ -11,7 +11,17 @@ import com.zero.conectacuatro.domain.model.GameStatus
 
 @Composable
 fun GamerMarkerNew(actualPlayer: Number, gameStatus: GameStatus, onResetCurrentGame: () -> Unit) {
+    val actualGamer = when(actualPlayer) {
+        2 -> 1
+        1 -> 2
+        else -> 0
+    }
+
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = "turno del jugador ${actualGamer}"
+        )
+
         Text(
             text = "Jugador 1 = ${gameStatus.winsPlayerOne}",
             Modifier.testTag("GameStatusTagPlayerOne")
@@ -19,9 +29,6 @@ fun GamerMarkerNew(actualPlayer: Number, gameStatus: GameStatus, onResetCurrentG
         Text(
             text = "Jugador 2 = ${gameStatus.winsPlayerTwo}",
             Modifier.testTag("GameStatusTagPlayerTwo")
-        )
-        Text(
-            text = "ultimo jugador en seleccionar ${actualPlayer}"
         )
 
         Box(modifier = Modifier.fillMaxWidth()) {
